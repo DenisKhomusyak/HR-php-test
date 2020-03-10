@@ -1,11 +1,16 @@
 <?php
-namespace App\Services\Weather;
+
+namespace App\Services\Weather\City;
+
+use App\Services\Weather\City\Contracts\CityInterface;
+use App\Services\Weather\Latitude\Latitude;
+use App\Services\Weather\Longitude\Longitude;
 
 /**
  * Class CityWeather
  * @package App\Services\Weather
  */
-class City
+class City implements CityInterface
 {
     /**
      * Name of city
@@ -15,23 +20,17 @@ class City
 
     /**
      * Latitude
-     * @var float
+     * @var Coordinate
      */
     public $lat = null;
 
     /**
      * Longitude
-     * @var float
+     * @var Coordinate
      */
     public $lon = null;
 
-    /**
-     * CityWeather constructor.
-     * @param string $name
-     * @param float|null $lat
-     * @param float|null $lon
-     */
-    public function __construct(string $name, float $lat = null, float $lon = null)
+    public function __construct(string $name, Coordinate $lat = null, Coordinate $lon = null)
     {
         $this->name = $name;
         $this->lat = $lat;
@@ -39,11 +38,19 @@ class City
     }
 
     /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+    /**
      * Setter lat
-     * @param float $lat
+     * @param Coordinate $lat
      * @return void
      */
-    public function setLat(float $lat) : void
+    public function setLat(Coordinate $lat) : void
     {
         $this->lat = $lat;
     }
@@ -54,15 +61,15 @@ class City
      */
     public function getLat() : float
     {
-        return $this->lat;
+        return $this->lat->getValue() ?? 0;
     }
 
     /**
      * Setter lon
-     * @param float $lon
+     * @param Coordinate $lon
      * @return void
      */
-    public function setLon(float $lon) : void
+    public function setLon(Coordinate $lon) : void
     {
       $this->lon = $lon;
     }
@@ -73,6 +80,6 @@ class City
      */
     public function getLon() : float
     {
-        return $this->lon;
+        return $this->lon->getValue() ?? 0;
     }
 }

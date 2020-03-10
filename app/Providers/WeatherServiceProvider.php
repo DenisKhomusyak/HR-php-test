@@ -18,10 +18,8 @@ class WeatherServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Weather::class, function() {
-            $config = config('services.weather', []);
-
-            return new Weather($config);
+        $this->app->singleton(Weather::class, function($app) {
+            return new Weather($app->make('config')->get('weather'));
         });
     }
 

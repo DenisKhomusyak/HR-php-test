@@ -3,9 +3,9 @@
 namespace App\Services\Weather\Yandex\v2;
 
 use App\Services\Weather\City;
-use App\Services\Weather\WeatherInterfaceAdapter;
+use App\Services\Weather\WeatherSourceAdapter;
 
-class API implements WeatherInterfaceAdapter
+class API implements WeatherSourceAdapter
 {
     public function getCurrentTemp(City $city)
     {

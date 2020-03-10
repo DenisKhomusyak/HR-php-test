@@ -2,7 +2,9 @@
 
 namespace App\Services\Weather;
 
-use App\Services\Weather\Yandex\v1\API;
+use App\Services\Weather\City\Contracts\CityInterface;
+use App\Services\Weather\WeatherSource\WeatherSourceAdapter;
+use Mockery\Exception;
 
 /**
  * Class Weather
@@ -16,12 +18,12 @@ class Weather
     public $config;
 
     /**
-     * @var WeatherInterfaceAdapter|null
+     * @var WeatherSourceAdapter|null
      */
-    public $weatherApi = null;
+    public $weatherSource = null;
 
     /**
-     * @var City|null
+     * @var CityInterface|null
      */
     public $city = null;
 
@@ -32,32 +34,39 @@ class Weather
     public function __construct(array $config = [])
     {
         $this->config = $config;
-        $this->weatherApi = new API($config['default']['base_url'], $config['default']['api_key']);
+
+        $this->setDefaultWeatherSource();
+    }
+
+
+    public function setDefaultWeatherSource() : void
+    {
+        $default = $this->config['default'];
+        $weatherSourceDefaultConfig = $this->config['weather_sources'][$default] ?? null;
+
+        if ($weatherSourceDefaultConfig === null) {
+            throw new Exception('not found default weather config');
+        }
+
+        $weatherSourceDefault = $weatherSourceDefaultConfig['api_class'];
+
+        $this->setWeatherSource(new $weatherSourceDefault($weatherSourceDefaultConfig));
     }
 
     /**
-     * @param City $city
+     * @param CityInterface $city
      */
-    public function setCity(City $city) : void
+    public function setCity(CityInterface $city) : void
     {
         $this->city = $city;
     }
 
     /**
-     * @return City|null
+     * @return CityInterface|null
      */
-    public function getCity() : ?string
+    public function getCity() : ?CityInterface
     {
         return $this->city;
-    }
-
-    /**
-     * Change weatherApi
-     * @param WeatherInterfaceAdapter $weatherInterfaceAdapter
-     */
-    public function setWeatherSource(WeatherInterfaceAdapter $weatherInterfaceAdapter) : void
-    {
-        $this->weatherApi = $weatherInterfaceAdapter;
     }
 
     /**
@@ -66,6 +75,15 @@ class Weather
      */
     public function getTemp()
     {
-        return $this->weatherApi->getCurrentTemp($this->city);
+        return $this->weatherSource->getCurrentTempCity($this->city);
+    }
+
+    /**
+     * Change weatherApi
+     * @param WeatherSourceAdapter $weatherInterfaceAdapter
+     */
+    public function setWeatherSource(WeatherSourceAdapter $weatherInterfaceAdapter) : void
+    {
+        $this->weatherSource = $weatherInterfaceAdapter;
     }
 }
