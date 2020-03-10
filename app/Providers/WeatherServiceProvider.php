@@ -6,10 +6,10 @@ use App\Services\Weather\Weather;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class WeatherProvider
+ * Class WeatherServiceProvider
  * @package App\Providers
  */
-class WeatherProvider extends ServiceProvider
+class WeatherServiceProvider extends ServiceProvider
 {
     /**
      * Register the application services.
