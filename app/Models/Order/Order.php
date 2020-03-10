@@ -32,7 +32,7 @@ class Order extends Model
     ];
 
     public const STATUS_NEW = 0;
-    public const STATUS_DELIVERY = 10;
+    public const STATUS_ACCEPTED = 10;
     public const STATUS_DONE = 20;
 
     /**
@@ -40,7 +40,7 @@ class Order extends Model
      */
     public const STATUSES = [
       self::STATUS_NEW,
-      self::STATUS_DELIVERY,
+      self::STATUS_ACCEPTED,
       self::STATUS_DONE,
     ];
 
