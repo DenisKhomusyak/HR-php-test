@@ -2,6 +2,8 @@
 
 use Faker\Generator as Faker;
 
+use App\Models\User\User;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -13,7 +15,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker) {
     static $password;
 
     return [
