@@ -28,7 +28,9 @@ class OrderController extends BaseController
 
     public function index(Request $request)
     {
-        $orders = $this->repository->all($request->all());
+        $orders = $this->repository
+            ->with(['partner', 'products'])
+            ->all($request->all());
 
         return $this->render('index', compact('orders'));
     }

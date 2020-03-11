@@ -45,10 +45,6 @@ abstract class AbstractCrudRepository implements BaseCrudInterface
             return $this->query->get();
         }
 
-        if (isset($data['with'])) {
-            $this->query->with($data['with']);
-        }
-
         return $this->query->paginate($data['count'] ?? 100);
     }
 

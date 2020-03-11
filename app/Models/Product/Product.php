@@ -23,6 +23,15 @@ class Product extends Model
     ];
 
     /**
+     * Quantity products in current Order
+     * @return int
+     */
+    public function getQuantityInOrderAttribute() : int
+    {
+        return $this->pivot->quantity ?? 0;
+    }
+
+    /**
      * @return BelongsTo
      */
     public function vendor() : BelongsTo
