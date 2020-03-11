@@ -15,6 +15,17 @@ use Psr\Http\Message\ResponseInterface;
 class API implements WeatherSourceAdapter, Requester
 {
     /**
+     * Name of service
+     * @var string
+     */
+    public $name;
+
+    /**
+     * @var int
+     */
+    public $cacheTime;
+
+    /**
      * Yandex url api
      * @var string
      */
@@ -34,6 +45,8 @@ class API implements WeatherSourceAdapter, Requester
     {
         $this->url = Arr::get($config, 'base_url');
         $this->_apiKey = Arr::get($config, 'api_key');
+        $this->name = Arr::get($config, 'name', 'Yandex');
+        $this->cacheTime = Arr::get($config, 'cache');
     }
 
     /**
@@ -53,6 +66,19 @@ class API implements WeatherSourceAdapter, Requester
         ]);
 
         return $response['fact']['temp'] ?? '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name ?? '';
+    }
+
+    public function getCacheTime(): int
+    {
+        return $this->cacheTime;
     }
 
     /**

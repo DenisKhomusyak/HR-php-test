@@ -11,8 +11,21 @@ use App\Services\Weather\City\Contracts\CityInterface;
 interface WeatherSourceAdapter
 {
     /**
+     * Get temperature by city
      * @param CityInterface $city
      * @return mixed
      */
-    public function getCurrentTempCity(CityInterface $city);
+    public function getCurrentTempCity(CityInterface $city) : ?string ;
+
+    /**
+     * Name of service
+     * @return string
+     */
+    public function getName() : string ;
+
+    /**
+     * Time of expire cache data
+     * @return int
+     */
+    public function getCacheTime() : int ;
 }

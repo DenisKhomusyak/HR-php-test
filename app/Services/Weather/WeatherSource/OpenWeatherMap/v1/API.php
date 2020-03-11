@@ -15,6 +15,17 @@ use Illuminate\Support\Arr;
 class API implements WeatherSourceAdapter, Requester
 {
     /**
+     * Name of service
+     * @var string
+     */
+    public $name;
+
+    /**
+     * @var int
+     */
+    public $cacheTime;
+
+    /**
      * OpenWeatherMap url api
      * @var string
      */
@@ -26,6 +37,7 @@ class API implements WeatherSourceAdapter, Requester
      */
     private $_apiKey;
 
+
     /**
      * API constructor.
      * @param array $config
@@ -34,14 +46,8 @@ class API implements WeatherSourceAdapter, Requester
     {
         $this->url = Arr::get($config, 'base_url');
         $this->_apiKey = Arr::get($config, 'api_key');
-    }
-
-    /**
-     * @return string
-     */
-    private function getApiKey() : string
-    {
-        return $this->_apiKey;
+        $this->name = Arr::get($config, 'name', 'OpenWeatherMap');
+        $this->cacheTime = Arr::get($config, 'cache');
     }
 
     /**
@@ -56,6 +62,30 @@ class API implements WeatherSourceAdapter, Requester
         ]);
 
         return $response['main']['temp'] ?? '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCacheTime(): int
+    {
+        return $this->cacheTime;
+    }
+
+    /**
+     * @return string
+     */
+    private function getApiKey() : string
+    {
+        return $this->_apiKey;
     }
 
     /**

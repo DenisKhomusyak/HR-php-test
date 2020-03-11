@@ -4,6 +4,7 @@ namespace App\Services\Weather;
 
 use App\Services\Weather\City\Contracts\CityInterface;
 use App\Services\Weather\WeatherSource\WeatherSourceAdapter;
+use Illuminate\Support\Facades\Cache;
 use Mockery\Exception;
 
 /**
@@ -38,7 +39,9 @@ class Weather
         $this->setDefaultWeatherSource();
     }
 
-
+    /**
+     * Set default weather source
+     */
     public function setDefaultWeatherSource() : void
     {
         $default = $this->config['default'];
@@ -73,9 +76,12 @@ class Weather
      * Get temperature in city
      * @return string|null
      */
-    public function getTemp()
+    public function getTemp() : ?string
     {
-        return $this->weatherSource->getCurrentTempCity($this->city);
+        // todo refactor
+        return Cache::remember($this->getCacheName(), $this->getCacheTimeService(), function () {
+            return $this->weatherSource->getCurrentTempCity($this->city);
+        });
     }
 
     /**
@@ -85,5 +91,27 @@ class Weather
     public function setWeatherSource(WeatherSourceAdapter $weatherInterfaceAdapter) : void
     {
         $this->weatherSource = $weatherInterfaceAdapter;
+    }
+
+    /**
+     * Name of current WeatherSource
+     * @return string
+     */
+    public function getNameService()
+    {
+        return $this->weatherSource->getName();
+    }
+
+    /**
+     * @return int
+     */
+    public function getCacheTimeService()
+    {
+        return $this->weatherSource->getCacheTime();
+    }
+
+    public function getCacheName()
+    {
+        return 'weather:' . $this->getCity()->getName() . ':' . $this->weatherSource->getName() . ':' . time();
     }
 }
