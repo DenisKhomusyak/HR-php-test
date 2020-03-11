@@ -5,29 +5,25 @@
         {!! Form::open(['route' => ['product.index'], 'method' => 'get']) !!}
             <div class="form-group">
                 <div class="row">
-                    {!! Form::label('sort[column]', 'Колонка', ['class' => 'col-sm-2']) !!}
-                    <div class="col-sm-9 row">
-                        <div class="col-sm-9">
-                            {!! Form::select('sort[column]', ['name' => 'name', 'xyz' => 'xyz'], ['class' => 'form-control']) !!}
-                        </div>
+                    {!! Form::label('sort[column]', 'Column', ['class' => 'col-sm-2']) !!}
+                    <div class="col-sm-3">
+                        {!! Form::select('sort[column]', ['name' => 'name', 'xyz' => 'xyz'], request()->old('sort[column]'), ['class' => 'form-control']) !!}
                     </div>
                 </div>
             </div>
 
         <div class="form-group">
             <div class="row">
-                {!! Form::label('sort[type]', 'Колонка', ['class' => 'col-sm-2']) !!}
-                <div class="col-sm-9">
-                    <div class="col-sm-9">
-                        {!! Form::select('sort[type]', ['asc' => 'asc', 'desc' => 'desc'], ['class' => 'form-control']) !!}
-                    </div>
+                {!! Form::label('sort[type]', 'Order', ['class' => 'col-sm-2']) !!}
+                <div class="col-sm-3">
+                    {!! Form::select('sort[type]', ['asc' => 'asc', 'desc' => 'desc'], request()->old('sort[type]'), ['class' => 'form-control']) !!}
                 </div>
             </div>
         </div>
 
         <div class="form-group">
             <div class="row">
-                {!! Form::label('count', 'Кол-во', ['class' => 'col-sm-2']) !!}
+                {!! Form::label('count', 'Paginate', ['class' => 'col-sm-2']) !!}
                 <div class="col-sm-3">
                     {!! Form::text('count', $products->count(), ['class' => 'form-control']) !!}
                 </div>
