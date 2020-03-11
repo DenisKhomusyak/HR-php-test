@@ -23,6 +23,14 @@ class Product extends Model
     ];
 
     /**
+     * Columns has may by ordered
+     * @var array
+     */
+    protected static $sortColumns = [
+        'name'
+    ];
+
+    /**
      * Quantity products in current Order
      * @return int
      */
@@ -32,6 +40,21 @@ class Product extends Model
     }
 
     /**
+     * Get vendor name
+     * @return string
+     */
+    public function getVendorNameAttribute() : string
+    {
+        return $this->vendor->name ?? '';
+    }
+
+    public static function getSortColumns()
+    {
+        return self::$sortColumns;
+    }
+
+    /**
+     * Vendor relationship
      * @return BelongsTo
      */
     public function vendor() : BelongsTo

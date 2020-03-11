@@ -2,6 +2,7 @@
     <h5 class="my-0 mr-md-auto font-weight-normal">{{ config('app.name', 'Laravel') }}</h5>
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="{{route('order.index')}}">Orders</a>
+        <a class="p-2 text-dark" href="{{route('product.index')}}">Products</a>
     </nav>
     <a class="btn btn-outline-primary" href="#">Sign up</a>
 </div>

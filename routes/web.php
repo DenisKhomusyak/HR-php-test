@@ -18,4 +18,5 @@ Route::get('/', function () {
 Route::get('weather', 'Weather\WeatherController@get');
 
 Route::namespace('Order')->group(__DIR__ . '/group/order.php');
+Route::namespace('Product')->group(__DIR__ . '/group/product.php');
 
