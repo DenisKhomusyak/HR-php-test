@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Order;
 use App\Http\Controllers\BaseController;
 use App\Repository\OrderRepository;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 /**
  * Class OrderController
@@ -26,7 +27,11 @@ class OrderController extends BaseController
         parent::__construct($repository);
     }
 
-    public function index(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request) : View
     {
         $orders = $this->repository
             ->with(['partner', 'products'])
