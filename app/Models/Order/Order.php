@@ -70,9 +70,27 @@ class Order extends Model
      */
     public function getTotalPriceAttribute() : int
     {
+        return $this->getTotalPrice();
+    }
+
+    /**
+     * Calculate total price
+     * @return int
+     */
+    public function getTotalPrice() : int
+    {
         return $this->products->sum( function ($product) {
             return $product->pivot->price * $product->pivot->quantity;
         });
+    }
+
+    /**
+     * Get all statuses
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        return self::STATUSES;
     }
 
     /**
