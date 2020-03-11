@@ -3,6 +3,7 @@
 namespace App\Models\Vendor;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Vendor
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Vendor extends Model
 {
+    use Notifiable;
+
     /**
      * Fields model
      * @var array

@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Events\Order\OrderDoneEvent;
 use App\Models\Partner\Partner;
 use App\Models\Product\Product;
 use Carbon\Carbon;
@@ -33,7 +34,15 @@ class Order extends Model
      * @var array
      */
     protected $dates = [
-        'delivery_dt'
+        'delivery_dt',
+    ];
+
+    /**
+     * Observers
+     * @var array
+     */
+    protected $dispatchesEvents = [
+//        'updated' => OrderUpdatedEvent::class,
     ];
 
     public const STATUS_NEW = 0;
@@ -84,6 +93,15 @@ class Order extends Model
         return $this->products->sum( function ($product) {
             return $product->pivot->price * $product->pivot->quantity;
         });
+    }
+
+    /**
+     * Get order status is done
+     * @return bool
+     */
+    public function isDone() : bool
+    {
+        return $this->status == self::STATUS_DONE;
     }
 
     /**

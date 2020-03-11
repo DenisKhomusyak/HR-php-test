@@ -3,6 +3,7 @@
 namespace App\Models\Partner;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class Partner
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Partner extends Model
 {
+    use Notifiable;
+
     /**
      * Fields model
      * @var array
