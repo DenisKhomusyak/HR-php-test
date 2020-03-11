@@ -4,6 +4,8 @@ namespace App\Models\Order;
 
 use App\Models\Partner\Partner;
 use App\Models\Product\Product;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -113,5 +115,42 @@ class Order extends Model
             ->withPivot(['quantity', 'price'])
             ->orderBy('created_at')
             ->withTimestamps();
+    }
+
+    /**
+     * Scope a query to only include orders of a given type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfType($query, $type) : Builder
+    {
+        //todo past, current, new, done разделить на скопы
+        if ($type === 'past') {
+            $query->where('status', self::STATUS_CONFIRMED)
+                ->where('delivery_dt', '<', Carbon::now());
+        } elseif ($type === 'current') {
+            $query->where('status', self::STATUS_CONFIRMED)
+                ->whereBetween('delivery_dt', [Carbon::now(), Carbon::now()->addHours(24)]);
+        } elseif ($type === 'new') {
+            $query->where('status', self::STATUS_NEW)
+                ->where('delivery_dt', '>', Carbon::now());
+        } elseif ($type === 'done') {
+            $query->where('status', self::STATUS_DONE)
+                ->whereDay('delivery_dt', '<=', Carbon::now()->format('d'));
+        }
+
+        if (in_array($type, ['past', 'done'])) {
+            $query->orderByDesc('delivery_dt');
+        } elseif (in_array($type, ['current', 'new'])) {
+            $query->orderBy('delivery_dt');
+        }
+
+        if (in_array($type, ['past', 'new', 'done'])) {
+            $query->limit(50);
+        }
+
+        return $query;
     }
 }
