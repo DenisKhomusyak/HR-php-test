@@ -52,11 +52,17 @@
         </thead>
         <tbody>
             @forelse ($products as $product)
-                <tr>
+                <tr data-product-id="{{$product->id}}">
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->vendorName }}</td>
-                    <td>{{ $product->price }}</td>
+                    <td class="form-inline">
+                        <div class="form-group mb-2 col-sm-3">
+                            <input type="text" name="price" value="{{ $product->price }}"
+                                   class="form-control-plaintext">
+                        </div>
+                        <button class="btn btn-warning btn-sm mb-2 savePriceBtn">save</button>
+                    </td>
                 </tr>
             @empty
                 <tr class="text-center">
