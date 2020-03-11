@@ -31,6 +31,12 @@
 
 <div class="container" id="app">
 
+    @if (session('status'))
+        <div class="alert alert-{{session('status')}}" role="alert">
+            {{ session('status_message') }}
+        </div>
+    @endif
+
     @yield('content')
 
     @include('layouts.include._footer')

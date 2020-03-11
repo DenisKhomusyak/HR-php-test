@@ -8,6 +8,7 @@
                 <th scope="col">Price</th>
                 <th scope="col">Order</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -17,15 +18,14 @@
                     <td>{{ $order->partnerName }}</td>
                     <td>{{ $order->totalPrice }}</td>
                     <td>
-                        <ul>
-                            @forelse($order->products as $product)
-                                <li>{{ $product->name }} x {{ $product->quantityInOrder }}</li>
-                            @empty
-                                <li>No products</li>
-                            @endforelse
-                        </ul>
+                        @include('frontend.order.include.table.order_products', ['orderProducts' => $order->products])
                     </td>
                     <td>{{ trans('order.statuses.' . $order->statusName) }}</td>
+                    <td>
+                        <a href="{{route('order.edit', $order)}}" class="btn btn-warning">
+                            Edit
+                        </a>
+                    </td>
                 </tr>
             @empty
                 <tr class="text-center">
