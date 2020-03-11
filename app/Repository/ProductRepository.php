@@ -30,6 +30,10 @@ class ProductRepository extends AbstractCrudRepository
             $this->query->orderBy($data['sort']['column'], $data['sort']['type']);
         }
 
+        if (!isset($data['count'])) {
+            $data['count'] = 25;
+        }
+
         return parent::all($data);
     }
 }
